@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+Welcome to this website!
+<h1>Characters</h1>
+<ul class='list-group list-group-flush' id='characters'>
+	{% for character in user.characters %}
+		<li class='list-group-item'>
+			{{ character.username }}, Level {{ character.level }}
+			<button type='button' class='close' onClick='delete_character({{ character.id }})'>
+				<span aria-hidden='true'>&times;</span>
+			</button>
+		</li>
+	{% endfor %}
+</ul>
+<form method='POST'>
+	<textarea name='character_name' id='character_name' placeholder='Name of the new character' class='form-control'></textarea>
+	<br />
+	<div align='center'>
+		<button type='submit' class='btn btn-primary'>New character</button>
+	</div>
+</form>
+{% endblock %}
+
+{% block javascript %}
+	<script 
+		type='text/javascript'
+		src="{{ url_for('static', filename='index.js') }}"
+	></script>
+{% endblock %}

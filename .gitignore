@@ -1,3 +1,6 @@
 __pycache__
 .env
 venv/
+__init__.py
+database.db
+time_used.md
