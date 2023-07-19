@@ -1,5 +1,4 @@
-# Tietokantasovellus
-Aihe: verkkopeli
+The topic is a browser game.
 Each user must create an account and log in. There are two types of accounts: normal users and administrators. Administrators can delete other accounts and their data.
 A reference to the users' game characters are saved inside their accounts.
 The characters have data about their statuses such as hitpoints and attack damage.
