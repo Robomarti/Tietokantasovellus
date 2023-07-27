@@ -1,11 +1,19 @@
-The topic is a browser game.
-Each user must create an account and log in. There are two types of accounts: normal users and administrators. Administrators can delete other accounts and their data.
-A reference to the users' game characters are saved inside their accounts.
-The characters have data about their statuses such as hitpoints and attack damage.
-Users can create new map where to play the game with other players. The map contains enemies.
-There is a simple text chat.
-The goal of the game is to kill monsters and not die, so the game part will be really simple with probably only one type of player characters and one type of monsters.
+The topic is a recipe website where you can publish food recipes.
 
-Instead of being in a schema file, the databases are created in the models.py file.
+- Users can create accounts and log in.
 
-I am developing this project with the help of this tutorial: https://www.youtube.com/watch?v=dam0GPOAvVI and some bootstraps from https://getbootstrap.com/. I also used the following documentations: https://flask-login.readthedocs.io/en/latest/ 
+- Users can add their own recipes, edit their recipes and like other peoples recipes.
+
+- The recipes include the name of the publisher and the amount of likes.
+
+- Users can also create private recipes that do not show to others.
+
+- All public recipes are shown on the main page.
+
+- Users can search public recipes with search words.
+
+- Admin users can delete other users' recipes.
+
+To initialize the database use the command psql -U username -d database -a -f schema.sql  where the username is your psql username and the database is some database that you have created.
+
+To start the website use the command source venv/Scripts/activate or the command source venv/bin/activate and run the main.py file with python main.py or python3 main.py
