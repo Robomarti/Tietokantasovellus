@@ -27,8 +27,18 @@ def sign_up(username, password):
         db.session.execute(text(sql), {"username":username, "password":hash_value})
         db.session.commit()
     except Exception:
-        render_template("error.html", message="jokin meni pieleen, yritä uudelleen myöhemmin")
+        render_template("error.html", message="something went wrong, please try again later.")
     return login(username, password)
 
 def user_id():
     return session.get("user_id",0)
+
+def is_admin():
+    sql = "SELECT is_admin FROM users WHERE id=:id"
+    result = db.session.execute(text(sql), {"id":user_id()})
+    return result.fetchone()
+
+def is_logged_in():
+    if session.get("is_admin") == True:
+        return True
+    return False

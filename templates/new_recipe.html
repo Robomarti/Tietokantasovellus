@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}New recipe{% endblock %} 
+
+
+{% block content %}
+
+<form action="/publish_recipe" method="POST">
+	Name of the dish: <input type="text" name="title">
+	Recipe:
+	<br>
+	<textarea name="recipe" rows="10" cols="40"></textarea>
+	<br>
+
+	Public: <input type="checkbox" name="public">
+	<input type="submit" value="Publish">
+</form>
+
+{% endblock %}

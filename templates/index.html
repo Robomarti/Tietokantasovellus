@@ -1,19 +1,23 @@
-<title>Etusivu</title>
-<h1>Etusivu</h1>
-<b>Tervetuloa</b> <i>sovellukseen</i>!
+{% extends "base.html" %}
+{% block title %}Home{% endblock %} 
 
-Viestien määrä: {{ count }}
+
+{% block content %}
+
+{% if session.user_id %}
+
+You are currently logged in.
+
+<a href="/new_recipe">Publish a new recipe</a>
+
+<br>
+Public recipes: {{ count }}
 <hr>
-{% for message in messages %}
-<i>Viesti:</i> {{ message[0] }}
-<p>
-<i>Lähettäjä:</i> {{ message[1] }}
-<p>
+{% for recipe in recipes %}
+{{ recipe.title }}
 <hr>
 {% endfor %}
-{% if session.user_id %}
-Olet kirjautunut sisään.
-<a href="/new">Lähetä viesti</a> | <a href="/logout">Kirjaudu ulos</a>
-{% else %}
-<a href="/login">Kirjaudu sisään</a>
+
 {% endif %}
+
+{% endblock %}

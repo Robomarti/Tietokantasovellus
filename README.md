@@ -16,4 +16,6 @@ The topic is a recipe website where you can publish food recipes.
 
 To initialize the database use the command psql -U username -d database -a -f schema.sql  where the username is your psql username and the database is some database that you have created.
 
-To start the website use the command source venv/Scripts/activate or the command source venv/bin/activate and run the main.py file with python main.py or python3 main.py
+To start the website use the command source venv/Scripts/activate or the command source venv/bin/activate and run the main.py file with flask run
+
+create a .env file with DATABASE_URL="postgresql:///database"  and SECRET_KEY=""
