@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS recipes;
-DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS recipes CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS comments;
 DROP TABLE IF EXISTS profiles;
 DROP TABLE IF EXISTS messages;
@@ -14,11 +14,12 @@ CREATE TABLE users (
 CREATE TABLE recipes (
     id SERIAL PRIMARY KEY,
     title TEXT,
+	time INTEGER,
 	recipe TEXT,
 	likes INTEGER,
     created_at TIMESTAMP,
 	public BOOLEAN DEFAULT TRUE,
-	user_id INTEGER REFERENCES users
+	user_id INTEGER REFERENCES users ON DELETE CASCADE
 );
 
 CREATE TABLE comments (
@@ -26,21 +27,21 @@ CREATE TABLE comments (
 	content TEXT,
 	likes INTEGER,
     created_at TIMESTAMP,
-	user_id INTEGER REFERENCES users,
-	recipe_id INTEGER REFERENCES recipes
+	user_id INTEGER REFERENCES users ON DELETE CASCADE,
+	recipe_id INTEGER REFERENCES recipes ON DELETE CASCADE
 );
 
 CREATE TABLE profiles (
     id SERIAL PRIMARY KEY,
 	description TEXT,
 	likes INTEGER,
-	user_id INTEGER REFERENCES users
+	user_id INTEGER REFERENCES users ON DELETE CASCADE
 );
 
 CREATE TABLE messages (
     id SERIAL PRIMARY KEY,
 	content TEXT,
 	sent_at TIMESTAMP,
-	sent_from_id INTEGER REFERENCES users,
-	sent_to_id INTEGER REFERENCES users
+	sent_from_id INTEGER REFERENCES users ON DELETE CASCADE,
+	sent_to_id INTEGER REFERENCES users ON DELETE CASCADE
 );

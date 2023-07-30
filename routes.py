@@ -20,9 +20,12 @@ def send():
     public = request.form.get("public")
     if not public:
         public = False
+    time = request.form.get("time")
+    if not time:
+        time = 1
     user_id = users.user_id()
-    sql = "INSERT INTO recipes (title,recipe,likes,public,user_id) VALUES (:title,:recipe, 0,:public,:user_id)"
-    db.session.execute(text(sql), {"title":title, "recipe":recipe, "public":public, "user_id":user_id})
+    sql = "INSERT INTO recipes (title,time,recipe,likes,public,user_id) VALUES (:title,:time,:recipe, 0,:public,:user_id)"
+    db.session.execute(text(sql), {"title":title, "time":time, "recipe":recipe, "public":public, "user_id":user_id})
     db.session.commit()
     return redirect("/")
 

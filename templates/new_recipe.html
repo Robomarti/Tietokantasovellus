@@ -6,9 +6,12 @@
 
 <form action="/publish_recipe" method="POST">
 	Name of the dish: <input type="text" name="title">
+	<br>
+	Time required: <input type="number" name="time" min="1">
+	<br>
 	Recipe:
 	<br>
-	<textarea name="recipe" rows="10" cols="40"></textarea>
+	<textarea name="recipe" rows="40" cols="60"></textarea>
 	<br>
 
 	Public: <input type="checkbox" name="public">
