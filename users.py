@@ -42,3 +42,8 @@ def is_logged_in():
     if session.get("is_admin") == True:
         return True
     return False
+
+def exists(username):
+    sql = "SELECT username FROM users WHERE username=:username"
+    result = db.session.execute(text(sql), {"username":username})
+    return result.fetchone()

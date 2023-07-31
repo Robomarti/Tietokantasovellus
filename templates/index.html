@@ -6,15 +6,18 @@
 
 {% if session.user_id %}
 
+<br>
+<br>
 You are currently logged in.
-
+<br>
+<br>
 <a href="/new_recipe">Publish a new recipe</a>
 
 <br>
 Public recipes: {{ count }}
 <hr>
 {% for recipe in recipes %}
-{{ recipe.title }}
+<a href="/recipe/{{ recipe.id }}">{{ recipe.title }}</a>, Cooking time {{ recipe.cooking_time }}, Published at {{ recipe.created_at }}
 <hr>
 {% endfor %}
 

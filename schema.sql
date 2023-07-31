@@ -14,10 +14,10 @@ CREATE TABLE users (
 CREATE TABLE recipes (
     id SERIAL PRIMARY KEY,
     title TEXT,
-	time INTEGER,
+	cooking_time INTEGER,
 	recipe TEXT,
 	likes INTEGER,
-    created_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	public BOOLEAN DEFAULT TRUE,
 	user_id INTEGER REFERENCES users ON DELETE CASCADE
 );
@@ -26,7 +26,7 @@ CREATE TABLE comments (
     id SERIAL PRIMARY KEY,
 	content TEXT,
 	likes INTEGER,
-    created_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	user_id INTEGER REFERENCES users ON DELETE CASCADE,
 	recipe_id INTEGER REFERENCES recipes ON DELETE CASCADE
 );
@@ -41,7 +41,7 @@ CREATE TABLE profiles (
 CREATE TABLE messages (
     id SERIAL PRIMARY KEY,
 	content TEXT,
-	sent_at TIMESTAMP,
+	sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	sent_from_id INTEGER REFERENCES users ON DELETE CASCADE,
 	sent_to_id INTEGER REFERENCES users ON DELETE CASCADE
 );
