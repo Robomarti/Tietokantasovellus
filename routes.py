@@ -6,7 +6,8 @@ from sqlalchemy.sql import text
 @app.route("/")
 def index():
 	list = recipes.get_list()
-	return render_template("index.html", count=len(list), recipes=list)
+	user = users.get_username(users.logged_user_id())
+	return render_template("index.html", count=len(list), recipes=list, user=user)
 
 @app.route("/new_recipe")
 def new():
@@ -36,7 +37,7 @@ def login():
 		if users.login(username, password):
 			return redirect("/")
 		else:
-			return render_template("error.html", message="Wrong username or password")
+			return render_template("error.html", error="Wrong username or password")
 
 @app.route("/logout")
 def logout():
@@ -50,15 +51,15 @@ def sign_up():
 	if request.method == "POST":
 		username = request.form["username"]
 		if users.exists(username):
-			return render_template("error.html", message="The username already exists")
+			return render_template("error.html", error="The username already exists")
 		password1 = request.form["password1"]
 		password2 = request.form["password2"]
 		if password1 != password2:
-			return render_template("error.html", message="The passwords do not match")
+			return render_template("error.html", error="The passwords do not match")
 		if users.sign_up(username, password1):
 			return redirect("/")
 		else:
-			return render_template("error.html", message="Sign up failed")
+			return render_template("error.html", error="Sign up failed")
 
 @app.route("/profile/<int:id>")
 def profile(id):
@@ -66,15 +67,26 @@ def profile(id):
 
 @app.route("/recipe/<int:id>")
 def recipe(id):
-	if recipes.is_public(id) or recipes.recipe_publisher_id(id) == users.user_id():
+	if recipes.is_public(id) or recipes.recipe_publisher_id(id) == users.logged_user_id():
 		recipe = recipes.get_recipe(id)
-		return render_template("recipe.html", title=str(recipe[1]), cooking_time=str(recipe[2]), recipe=str(recipe[3]))
+		recipe_publisher = users.get_username(recipe[7])
+		is_admin = users.is_admin()
+		return render_template("recipe.html", recipe=recipe, recipe_publisher=recipe_publisher, is_admin=is_admin)
 	return render_template("error.html", error="You have no permissions to see this recipe")
 
-@app.route("/delete_recipe/<int:id>")
+@app.route("/delete_recipe/<int:id>", methods=["POST"])
 def delete_recipe(id):
-	sql = "SELECT user_id FROM users WHERE id=:id"
-	result = db.session.execute(text(sql), {"id":id}).fetchone()
-	if result == users.user_id():
-		return
-	return render_template("error.html", error="You do not have permission to delete this recipe")
+	if request.method == "POST":
+		if recipes.recipe_publisher_id(id) == users.logged_user_id() or users.is_admin():
+			recipes.delete_recipe(id)
+			return redirect("/")
+		return render_template("error.html", error="You do not have permission to delete this recipe.")
+
+@app.route("/like_recipe/<int:id>", methods=["POST"])
+def update_recipe(id):
+	if request.method == "POST":
+		if recipes.recipe_publisher_id(id) != users.logged_user_id():
+			recipes.like_recipe(id)
+			return redirect(f"/recipe/{id}")
+		else:
+			return render_template("error.html", error="You can not like your own recipe.")

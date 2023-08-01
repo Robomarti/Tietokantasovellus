@@ -30,13 +30,13 @@ def sign_up(username, password):
         render_template("error.html", message="something went wrong, please try again later.")
     return login(username, password)
 
-def user_id():
+def logged_user_id():
     return session.get("user_id",0)
 
 def is_admin():
     sql = "SELECT is_admin FROM users WHERE id=:id"
-    result = db.session.execute(text(sql), {"id":user_id()})
-    return result.fetchone()
+    result = db.session.execute(text(sql), {"id":logged_user_id()})
+    return result.fetchone()[0]
 
 def is_logged_in():
     if session.get("is_admin") == True:
@@ -47,3 +47,14 @@ def exists(username):
     sql = "SELECT username FROM users WHERE username=:username"
     result = db.session.execute(text(sql), {"username":username})
     return result.fetchone()
+
+def get_username(id):
+    sql = "SELECT username FROM users WHERE id=:id"
+    result = db.session.execute(text(sql), {"id":id})
+    user_id = result.fetchone()
+    if user_id:
+        user_id = user_id[0]
+    return user_id
+
+def user_id():
+    return session["user_id"]

@@ -2,7 +2,7 @@ The topic is a recipe website where you can publish food recipes.
 
 - Users can create accounts and log in.
 
-- Users can add their own recipes, edit their recipes and like other peoples recipes.
+- Users can add their own recipes, edit their own recipes and like other users' recipes.
 
 - The recipes include the name of the publisher and the amount of likes.
 
@@ -16,22 +16,22 @@ The topic is a recipe website where you can publish food recipes.
 
 - Users can search public recipes with search words.
 
-- Admin users can delete other users' recipes.
+- Admin users can delete other users' recipes and users' can delete their own recipes.
+
+
+Things that are working now:
+
+- Account creation and login.
+- Creating public and private recipes, liking other users' recipes, and deleting your own recipes.
+- Main page shows all public recipes.
 
 
 # Set up guide:
 
-You can have virtualenv installed by using pip install virtualenv. This might make easier to remove unnecessary
-dependencies after testing my application.
+Clone this repository. Navigate to the root directory.
 
-Start the application with 
-```bash
-source venv/Scripts/activate
-```
-or
-```bash
-source venv/bin/activate
-```
+There you can have virtualenv installed by using pip install virtualenv. This might make easier to remove unnecessary
+dependencies after testing my application.
 
 inside virtualenv or normally use 
 ```bash
@@ -40,14 +40,15 @@ pip install -r requirements.txt
 to install dependencies
 
 
-
 To initialize the database use the command 
 ```bash
 psql -U username -d database -a -f schema.sql
 ```
 where the username is your psql username and the database is some database that you have created. Do also create a .env file with the values DATABASE_URL="postgresql:///database" and SECRET_KEY="secretkey" where database is the name of you database and secretkey is some string.
 
-To start the website use the command 
+
+
+If you installed virtualenv, to start the virtual environment use
 ```bash
 source venv/Scripts/activate
 ```
@@ -55,7 +56,9 @@ or the command
 ```bash
 source venv/bin/activate
 ```
-and run the main.py file with 
+
+
+To start the website use the command
 ```bash
 flask run
 ```

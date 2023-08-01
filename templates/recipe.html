@@ -1,15 +1,27 @@
 {% extends "base.html" %}
-{% block title %}{{ title }}{% endblock %}
+{% block title %}{{ recipe[1] }}{% endblock %}
 
 {% block content %}
 
-<br>
-<h1>{{ title }}</h1>
+<h1>{{ recipe[1] }}</h1>
 
-Cooking time: {{ cooking_time }} minutes.
+Cooking time: {{ recipe[2] }} minutes.
 <br>
 <br>
-{{ recipe }}
+{{ recipe[3] }}
+<br>
+<br>
+Published by: {{ recipe_publisher }} at {{ recipe[5] }}
+<br>
+<form action="/like_recipe/{{ recipe[0] }}" method="POST">
+	Likes: {{ recipe[4] }} <input type="submit" value="Like">
+</form>
+<br>
 
+{% if session.user_id == recipe[7] or is_admin %}
+<form action="/delete_recipe/{{ recipe[0] }}" method="POST">
+	<input type="submit" value="Delete recipe">
+</form>
+{% endif %}
 
 {% endblock %}
