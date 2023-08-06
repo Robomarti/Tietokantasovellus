@@ -24,27 +24,33 @@ Things that are working now:
 - Account creation and login.
 - Creating public and private recipes, liking other users' recipes, and deleting your own recipes.
 - Main page shows all public recipes.
+- Searching recipes by their title or content
 
 
 # Set up guide:
+This project expects you to have PostgreSQL and Python 3 installed.
+
 
 Clone this repository. Navigate to the root directory.
 
 There you can have virtualenv installed by using pip install virtualenv. This might make easier to remove unnecessary
 dependencies after testing my application.
 
-inside virtualenv or normally use 
+Inside virtualenv or normally use 
 ```bash
 pip install -r requirements.txt
 ```
-to install dependencies
+to install dependencies.
 
 
 To initialize the database use the command 
 ```bash
 psql -U username -d database -a -f schema.sql
 ```
-where the username is your psql username and the database is some database that you have created. Do also create a .env file with the values DATABASE_URL="postgresql:///database" and SECRET_KEY="secretkey" where database is the name of you database and secretkey is some string.
+where the username is your psql username and the database is some database that you have created. 
+
+
+Do also create a .env file with the values DATABASE_URL="postgresql:///database" and SECRET_KEY="secretkey" where database is the name of your database and secretkey is some string.
 
 
 

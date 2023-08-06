@@ -51,3 +51,13 @@ def delete_recipe(id):
 	sql = "DELETE FROM recipes WHERE id=(:id)"
 	db.session.execute(text(sql), {"id":id})
 	db.session.commit()
+
+def search_recipe(content):
+	found_recipes = []
+	sql = "SELECT id FROM recipes WHERE (title LIKE :title OR recipe LIKE :recipe)"
+	result = db.session.execute(text(sql), {"title":"%"+content+"%", "recipe":"%"+content+"%"})
+	results = result.fetchall()
+	for id in results:
+		found_recipes.append(get_recipe(id[0]))
+
+	return found_recipes

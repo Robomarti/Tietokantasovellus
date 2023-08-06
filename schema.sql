@@ -33,7 +33,7 @@ CREATE TABLE comments (
 
 CREATE TABLE profiles (
     id SERIAL PRIMARY KEY,
-	description TEXT,
+	bio TEXT,
 	likes INTEGER,
 	user_id INTEGER REFERENCES users ON DELETE CASCADE
 );

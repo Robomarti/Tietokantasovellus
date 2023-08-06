@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %} Search results {% endblock %}
+
+{% block content %}
+
+<hr>
+{% for recipe in found_recipes %}
+
+<a href="/recipe/{{ recipe.id }}">{{ recipe.title }}</a>, Cooking time {{ recipe.cooking_time }} minutes, Published at {{ recipe.created_at }}, {{ recipe.likes }} likes.
+<hr>
+
+{% endfor %}
+
+{% endblock %}

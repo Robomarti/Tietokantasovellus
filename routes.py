@@ -90,3 +90,9 @@ def update_recipe(id):
 			return redirect(f"/recipe/{id}")
 		else:
 			return render_template("error.html", error="You can not like your own recipe.")
+
+@app.route("/result")
+def result():
+	query = request.args["query"]
+	found_recipes = recipes.search_recipe(query)
+	return render_template("result.html", found_recipes=found_recipes)

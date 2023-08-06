@@ -10,6 +10,10 @@
 			{% if session.user_id %}
 			<a class="nav-item nav-link" id="home" href="/">Home</a>
 			<a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
+			<form style="display:inline;" action="/result" method="GET">
+			Search a recipe: <input type="text" name="query">
+			<input type="submit" value="Search">
+			</form>
 			{% else %}
 			<a class="nav-item nav-link" id="login" href="/login">Login</a>
 			<a class="nav-item nav-link" id="signUp" href="/sign_up">Sign Up</a>
@@ -18,7 +22,9 @@
 		<br>
 		<hr>
 		<br>
+		{% if session.user_id %}
 		{% block content %} {% endblock %}
+		{% endif %}
 	</body>
 	</body>
 </html>
