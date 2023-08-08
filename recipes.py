@@ -4,7 +4,7 @@ from sqlalchemy.sql import text
 from sqlalchemy.sql import text
 
 def get_list():
-    sql = "SELECT id, title, cooking_time, recipe, likes, created_at, public, user_id FROM recipes WHERE public=TRUE ORDER BY likes"
+    sql = "SELECT id, title, cooking_time, recipe, likes, created_at, public, user_id FROM recipes WHERE public=TRUE ORDER BY likes DESC"
     result = db.session.execute(text(sql))
     return result.fetchall()
 
@@ -54,10 +54,26 @@ def delete_recipe(id):
 
 def search_recipe(content):
 	found_recipes = []
-	sql = "SELECT id FROM recipes WHERE (title LIKE :title OR recipe LIKE :recipe)"
+	sql = "SELECT id FROM recipes WHERE (title LIKE (:title) OR recipe LIKE (:recipe) ORDER BY likes DESC)"
 	result = db.session.execute(text(sql), {"title":"%"+content+"%", "recipe":"%"+content+"%"})
 	results = result.fetchall()
 	for id in results:
 		found_recipes.append(get_recipe(id[0]))
 
 	return found_recipes
+
+def update(recipe_id, title, recipe, likes, public, cooking_time):
+    user_id = users.user_id()
+    if user_id == 0:
+        return False
+    sql = "UPDATE recipes SET " \
+    			"title = (:title), " \
+			    "cooking_time = (:cooking_time), " \
+			    "recipe = (:recipe), " \
+			    "likes = (:likes), " \
+			    "public = (:public), " \
+			    "user_id = (:user_id) " \
+			    "WHERE id = (:recipe_id)"
+    db.session.execute(text(sql), {"title":title, "cooking_time":cooking_time, "recipe":recipe, "likes":likes, "public":public, "user_id":user_id, "recipe_id":recipe_id})
+    db.session.commit()
+    return True

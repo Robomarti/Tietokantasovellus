@@ -2,7 +2,7 @@ The topic is a recipe website where you can publish food recipes.
 
 - Users can create accounts and log in.
 
-- Users can add their own recipes, edit their own recipes and like other users' recipes.
+- Users can add their own recipes, edit their own recipes and like other users' recipes. As I like the idea of giving as much likes as you feel grateful, giving likes is not limited.
 
 - The recipes include the name of the publisher and the amount of likes.
 
@@ -22,7 +22,7 @@ The topic is a recipe website where you can publish food recipes.
 Things that are working now:
 
 - Account creation and login.
-- Creating public and private recipes, liking other users' recipes, and deleting your own recipes.
+- Creating public and private recipes, liking other users' recipes, and editing and deleting your own recipes.
 - Main page shows all public recipes.
 - Searching recipes by their title or content
 

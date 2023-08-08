@@ -69,9 +69,9 @@ def profile(id):
 def recipe(id):
 	if recipes.is_public(id) or recipes.recipe_publisher_id(id) == users.logged_user_id():
 		recipe = recipes.get_recipe(id)
-		recipe_publisher = users.get_username(recipe[7])
+		recipe_publisher_name = users.get_username(recipe[7])
 		is_admin = users.is_admin()
-		return render_template("recipe.html", recipe=recipe, recipe_publisher=recipe_publisher, is_admin=is_admin)
+		return render_template("recipe.html", recipe=recipe, recipe_publisher_name=recipe_publisher_name, is_admin=is_admin)
 	return render_template("error.html", error="You have no permissions to see this recipe")
 
 @app.route("/delete_recipe/<int:id>", methods=["POST"])
@@ -82,8 +82,33 @@ def delete_recipe(id):
 			return redirect("/")
 		return render_template("error.html", error="You do not have permission to delete this recipe.")
 
+@app.route("/edit_recipe/<int:id>", methods=["POST"])
+def edit_recipe(id):
+	if request.method == "POST":
+		if recipes.recipe_publisher_id(id) == users.logged_user_id() or users.is_admin():
+			recipe = recipes.get_recipe(id)
+			return render_template("edit_recipe.html", recipe=recipe)
+		return render_template("error.html", error="You do not have permission to delete this recipe.")
+
+@app.route("/update_recipe", methods=["POST"])
+def update_recipe():
+	title = request.form["title"]
+	cooking_time = request.form.get("cooking_time")
+	recipe = request.form["recipe"]
+	likes = request.form["likes"]
+	public = request.form.get("public")
+	recipe_id = request.form.get("recipe_id")
+
+	if not public:
+		public = False
+	if not cooking_time:
+		cooking_time = 1
+	
+	recipes.update(recipe_id, title, recipe, likes, public, cooking_time)
+	return redirect("/")
+
 @app.route("/like_recipe/<int:id>", methods=["POST"])
-def update_recipe(id):
+def like_recipe(id):
 	if request.method == "POST":
 		if recipes.recipe_publisher_id(id) != users.logged_user_id():
 			recipes.like_recipe(id)

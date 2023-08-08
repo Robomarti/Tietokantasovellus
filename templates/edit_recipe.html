@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}New recipe{% endblock %} 
+
+
+{% block content %}
+
+{{ recipe }}
+<br>
+<br>
+<form action="/update_recipe" method="POST">
+	<input type="hidden" name="recipe_id" value="{{ recipe[0] }}">
+	<input type="hidden" name="likes" value="{{ recipe[4] }}">
+	Name of the dish: <input type="text" name="title" value="{{ recipe[1] }}">
+	<br>
+	Time required: <input type="number" name="cooking_time" min="1" value="{{ recipe[2] }}"> minutes.
+	<br>
+	Recipe:
+	<br>
+	<textarea name="recipe" rows="40" cols="60">{{ recipe[3] }}</textarea>
+	<br>
+
+	Public: <input type="checkbox" name="public" value="{{ recipe[6] }}">
+	<input type="submit" value="Update">
+</form>
+
+{% endblock %}
