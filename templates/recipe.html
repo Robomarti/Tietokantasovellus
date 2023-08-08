@@ -11,7 +11,7 @@ Cooking time: {{ recipe[2] }} minutes.
 {{ recipe[3] }}
 <br>
 <br>
-Published by: {{ recipe_publisher_name }} at {{ recipe[5] }}
+Published by: <a href="/profile/{{ recipe[7] }}">{{ recipe_publisher_name }}</a> at {{ recipe[5] }}
 <br>
 <form action="/like_recipe/{{ recipe[0] }}" method="POST">
 	Likes: {{ recipe[4] }} <input type="submit" value="Like">

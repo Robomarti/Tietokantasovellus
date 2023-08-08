@@ -61,10 +61,6 @@ def sign_up():
 		else:
 			return render_template("error.html", error="Sign up failed")
 
-@app.route("/profile/<int:id>")
-def profile(id):
-	return render_template("error.html", error="Ei oikeutta nähdä sivua")
-
 @app.route("/recipe/<int:id>")
 def recipe(id):
 	if recipes.is_public(id) or recipes.recipe_publisher_id(id) == users.logged_user_id():
@@ -121,3 +117,9 @@ def result():
 	query = request.args["query"]
 	found_recipes = recipes.search_recipe(query)
 	return render_template("result.html", found_recipes=found_recipes)
+
+@app.route("/profile/<int:user_id>")
+def profile(user_id):
+	profile_owner = users.get_username(user_id)
+	found_recipes = recipes.get_recipes_of_user(user_id)
+	return render_template("profile.html", profile_owner=profile_owner, found_recipes=found_recipes)

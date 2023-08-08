@@ -18,13 +18,13 @@ def send(title, recipe, public, cooking_time):
     return True
 
 def is_public(id):
-	sql = "SELECT public FROM recipes WHERE id=:id"
+	sql = "SELECT public FROM recipes WHERE id=(:id)"
 	result = db.session.execute(text(sql), {"id":id})
 	public = result.fetchone()[0]
 	return public
 
 def recipe_publisher_id(id):
-	sql = "SELECT user_id FROM recipes WHERE id=:id"
+	sql = "SELECT user_id FROM recipes WHERE id=(:id)"
 	result = db.session.execute(text(sql), {"id":id})
 	user_id = result.fetchone()
 	if user_id:
@@ -77,3 +77,8 @@ def update(recipe_id, title, recipe, likes, public, cooking_time):
     db.session.execute(text(sql), {"title":title, "cooking_time":cooking_time, "recipe":recipe, "likes":likes, "public":public, "user_id":user_id, "recipe_id":recipe_id})
     db.session.commit()
     return True
+
+def get_recipes_of_user(user_id):
+	sql = "SELECT id, title, cooking_time, recipe, likes, created_at, public, user_id FROM recipes WHERE public=TRUE AND user_id=(:user_id) ORDER BY likes DESC"
+	result = db.session.execute(text(sql), {"user_id":user_id})
+	return result.fetchall()

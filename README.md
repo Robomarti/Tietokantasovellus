@@ -10,6 +10,8 @@ The topic is a recipe website where you can publish food recipes.
 
 - Users have profile pages where all their published recipes are shown. 
 
+- Users can search for other users' profiles using their usernames as search words.
+
 - Users can send messages to each other through their profile pages.
 
 - All public recipes are shown on the main page.
@@ -25,6 +27,7 @@ Things that are working now:
 - Creating public and private recipes, liking other users' recipes, and editing and deleting your own recipes.
 - Main page shows all public recipes.
 - Searching recipes by their title or content
+- All public recipes of each user are shown on their profile page
 
 
 # Set up guide:
