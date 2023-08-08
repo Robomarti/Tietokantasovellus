@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %} Search results {% endblock %}
+
+{% block content %}
+
+<hr>
+{% for user in found_users %}
+
+<a href="/profile/{{ user[0] }}">{{ user[1] }}</a>
+<hr>
+
+{% endfor %}
+
+{% endblock %}

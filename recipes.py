@@ -54,8 +54,18 @@ def delete_recipe(id):
 
 def search_recipe(content):
 	found_recipes = []
-	sql = "SELECT id FROM recipes WHERE (title LIKE (:title) OR recipe LIKE (:recipe) ORDER BY likes DESC)"
+	sql = "SELECT id FROM recipes WHERE title LIKE (:title) OR recipe LIKE (:recipe) ORDER BY likes DESC"
 	result = db.session.execute(text(sql), {"title":"%"+content+"%", "recipe":"%"+content+"%"})
+	results = result.fetchall()
+	for id in results:
+		found_recipes.append(get_recipe(id[0]))
+
+	return found_recipes
+
+def search_recipe_by_time(content):
+	found_recipes = []
+	sql = "SELECT id FROM recipes WHERE CAST(cooking_time as TEXT) LIKE (:cooking_time) ORDER BY likes DESC"
+	result = db.session.execute(text(sql), {"cooking_time":"%"+content+"%"})
 	results = result.fetchall()
 	for id in results:
 		found_recipes.append(get_recipe(id[0]))

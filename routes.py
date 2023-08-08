@@ -1,7 +1,7 @@
 from app import app
 from db import db
 from flask import render_template, request, redirect
-import recipes, users
+import recipes, users, profiles
 from sqlalchemy.sql import text
 @app.route("/")
 def index():
@@ -56,7 +56,9 @@ def sign_up():
 		password2 = request.form["password2"]
 		if password1 != password2:
 			return render_template("error.html", error="The passwords do not match")
-		if users.sign_up(username, password1):
+		user_id = users.sign_up(username, password1)
+		if user_id:
+			profiles.create_profile(user_id)
 			return redirect("/")
 		else:
 			return render_template("error.html", error="Sign up failed")
@@ -112,14 +114,41 @@ def like_recipe(id):
 		else:
 			return render_template("error.html", error="You can not like your own recipe.")
 
-@app.route("/result")
-def result():
-	query = request.args["query"]
-	found_recipes = recipes.search_recipe(query)
+@app.route("/recipe_result")
+def recipe_result():
+	recipe_query = request.args["recipe_query"]
+	if recipe_query.isdigit():
+		found_recipes = recipes.search_recipe_by_time(recipe_query)
+	else:
+		found_recipes = recipes.search_recipe(recipe_query)
 	return render_template("result.html", found_recipes=found_recipes)
+
+@app.route("/user_result")
+def user_result():
+	username_query = request.args["username_query"]
+	found_users = users.search_user(username_query)
+	return render_template("user_result.html", found_users=found_users)
 
 @app.route("/profile/<int:user_id>")
 def profile(user_id):
 	profile_owner = users.get_username(user_id)
 	found_recipes = recipes.get_recipes_of_user(user_id)
-	return render_template("profile.html", profile_owner=profile_owner, found_recipes=found_recipes)
+	found_profile = profiles.get_profile_by_user_id(user_id)
+	return render_template("profile.html", profile_owner=profile_owner, found_recipes=found_recipes, found_profile=found_profile)
+
+@app.route("/send_a_message", methods=["GET", "POST"])
+def send_a_message():
+	if request.method == "GET":
+		return render_template("new_message.html")
+	if request.method == "POST":
+		username = request.form["username"]
+		if users.exists(username):
+			return render_template("error.html", error="The username already exists")
+		password1 = request.form["password1"]
+		password2 = request.form["password2"]
+		if password1 != password2:
+			return render_template("error.html", error="The passwords do not match")
+		if users.sign_up(username, password1):
+			return redirect("/")
+		else:
+			return render_template("error.html", error="Sign up failed")

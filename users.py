@@ -13,9 +13,9 @@ def login(username, password):
     else:
         if check_password_hash(user.password, password):
             session["user_id"] = user.id
-            return True
+            return user.id
         else:
-            return False
+            return None
 
 def logout():
     del session["user_id"]
@@ -58,3 +58,14 @@ def get_username(id):
 
 def user_id():
     return session["user_id"]
+
+def search_user(username):
+	found_users = []
+	sql = "SELECT id FROM users WHERE username LIKE (:username) ORDER BY total_likes DESC"
+	result = db.session.execute(text(sql), {"username":"%"+username+"%"})
+	results = result.fetchall()
+	for user_id in results:
+		user_id = user_id[0]
+		found_users.append((user_id,get_username(user_id)))
+
+	return found_users

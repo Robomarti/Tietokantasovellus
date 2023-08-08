@@ -10,9 +10,15 @@
 			{% if session.user_id %}
 			<a class="nav-item nav-link" id="home" href="/">Home</a>
 			<a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
-			<form style="display:inline;" action="/result" method="GET">
-			Search a recipe: <input type="text" name="query">
-			<input type="submit" value="Search">
+			<form style="display:inline;" action="/recipe_result" method="GET">
+				Search for a recipe: 
+				<input type="text" name="recipe_query">
+				<input type="submit" value="Search">
+			</form>
+			<form style="display:inline;" action="/user_result" method="GET">
+				Search for a user: 
+				<input type="text" name="username_query">
+				<input type="submit" value="Search">
 			</form>
 			{% else %}
 			<a class="nav-item nav-link" id="login" href="/login">Login</a>
