@@ -4,8 +4,8 @@
 
 {% block content %}
 
-<form action="/update_biography" method="POST">
-	About me: <input type="text" name="bio" value="Tell something about yourself">
+<form action="/edit_bio/{{ profile_id }}" method="POST">
+	About me: <textarea name="bio" rows="40" cols="60">{{ current_bio }}</textarea>
 	<br>
 	<input type="submit" value="Update">
 </form>

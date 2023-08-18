@@ -160,9 +160,14 @@ def send_a_message():
 @app.route("/edit_bio/<int:profile_id>", methods=["GET", "POST"])	
 def edit_bio(profile_id):
 	if request.method == "GET":
+		current_bio = profiles.get_bio(profile_id)
 		if profiles.get_profiles_users_id(profile_id) == users.logged_user_id() or users.is_admin():
-			return render_template("edit_bio.html")
-		return render_template("error.html", error="You do not have permission to edit this biography.")
+			return render_template("edit_bio.html", profile_id=profile_id, current_bio=current_bio)
+		return render_template("error.html", error=f"You do not have permission to edit this biography.")
+	if request.method == "POST":
+		new_bio = request.form["bio"]
+		profiles.update_bio(profile_id, new_bio)
+		return redirect(f"/profile/{profile_id}")
 
 @app.route("/add_comment/<int:recipe_id>", methods=["GET", "POST"])	
 def add_comment(recipe_id):
