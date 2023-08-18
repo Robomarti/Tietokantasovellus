@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}New recipe{% endblock %} 
+
+
+{% block content %}
+
+<form action="/update_biography" method="POST">
+	About me: <input type="text" name="bio" value="Tell something about yourself">
+	<br>
+	<input type="submit" value="Update">
+</form>
+
+{% endblock %}

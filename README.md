@@ -26,8 +26,11 @@ Things that are working now:
 - Account creation and login.
 - Creating public and private recipes, liking other users' recipes, and editing and deleting your own recipes.
 - Main page shows all public recipes.
-- Searching recipes by their title or content
+- Searching recipes by their title, content or cooking time
+- Searching users by their username
 - All public recipes of each user are shown on their profile page
+- All private recipes of an user show on only their own profile, and they can filter public and private recipes by clicking a button. 
+- Users can comment on recipes, and like other users' comments.
 
 
 # Set up guide:

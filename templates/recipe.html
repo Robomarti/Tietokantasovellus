@@ -16,15 +16,35 @@ Published by: <a href="/profile/{{ recipe[7] }}">{{ recipe_publisher_name }}</a>
 <form action="/like_recipe/{{ recipe[0] }}" method="POST">
 	Likes: {{ recipe[4] }} <input type="submit" value="Like">
 </form>
-<br>
 
-{% if session.user_id == recipe[7] or is_admin %}
+{% if session.user_id == recipe[7] %}
 <form action="/edit_recipe/{{ recipe[0] }}" method="POST">
 	<input type="submit" value="Edit recipe">
 </form>
-<form action="/delete_recipe/{{ recipe[0] }}" method="POST">
+{% endif %}
+{% if session.user_id == recipe[7] or is_admin %}
+<form style="display:inline;" action="/delete_recipe/{{ recipe[0] }}" method="POST">
 	<input type="submit" value="Delete recipe">
 </form>
 {% endif %}
+
+<br>
+<hr>
+
+<form action="/add_comment/{{ recipe[0] }}" method="GET">
+	<input type="submit" value="Add a comment">
+</form>
+
+{% for comment in recipe_comments %}
+
+{{ comment.content }}
+<br>
+Likes: {{comment.likes}}, Published by: <a href="/profile/{{ comment.user_id }}">{{ comment.username }}</a> at {{ comment.created_at }}
+<form action="/like_comment/{{ comment.id }}" method="POST">
+	<input type="hidden" name="recipe_id" value="{{ recipe[0] }}">
+	<input type="submit" value="Like">
+</form>
+<hr>
+{% endfor %}
 
 {% endblock %}

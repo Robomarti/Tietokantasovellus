@@ -27,7 +27,7 @@ def sign_up(username, password):
         db.session.execute(text(sql), {"username":username, "password":hash_value})
         db.session.commit()
     except Exception:
-        render_template("error.html", message="something went wrong, please try again later.")
+        render_template("error.html", message="Something went wrong, please try again later.")
     return login(username, password)
 
 def logged_user_id():
@@ -61,11 +61,13 @@ def user_id():
 
 def search_user(username):
 	found_users = []
-	sql = "SELECT id FROM users WHERE username LIKE (:username) ORDER BY total_likes DESC"
+	sql = "SELECT U.id FROM users U, profiles P WHERE U.username LIKE (:username) ORDER BY P.total_likes DESC"
 	result = db.session.execute(text(sql), {"username":"%"+username+"%"})
 	results = result.fetchall()
 	for user_id in results:
 		user_id = user_id[0]
-		found_users.append((user_id,get_username(user_id)))
+		user_result = (user_id,get_username(user_id))
+		if user_result not in found_users:
+			found_users.append(user_result)
 
 	return found_users

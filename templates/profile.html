@@ -8,9 +8,9 @@
 You are currently viewing {{ profile_owner }}'s profile.
 <br>
 <br>
+{% if session.user_id != found_profile[3] %}
 Send a <a href="/send_a_message">message</a>
-<br>
-<br>
+{% endif %}
 <h2>{{ profile_owner }}</h2>
 <br>
 <br>
@@ -19,17 +19,59 @@ About me:
 {{ found_profile[1] }}
 <br>
 <br>
+{% if session.user_id == found_profile[3] %}
+<form action="/edit_bio/{{ found_profile[0] }}" method="GET">
+	<input type="submit" value="Edit biography">
+</form>
+{% endif %}
+
 <h4>Like score: {{ found_profile[2] }}</h4>
 
-<br>
-<br>
-Public recipes: {{ count }}
+{% if private_count > 0 %}
+	<button onclick="show_all()">{{ public_count + private_count }} all recipes:</button>
+	<button style="display:inline;" onclick="show_public()">{{ public_count }} public recipes:</button>
+	<button style="display:inline;" onclick="show_private()">{{ private_count }} private recipes:</button>
+{% else %}
+	{{ public_count }} public recipes:
+{% endif %}
 <br>
 <hr>
-{% for recipe in found_recipes %}
-<a href="/recipe/{{ recipe.id }}">{{ recipe.title }}</a>, Cooking time {{ recipe.cooking_time }}, Published at {{ recipe.created_at }}, {{ recipe.likes }} likes.
-<hr>
-{% endfor %}
+<div id="public">
+	{% for recipe in found_recipes %}
+	<a href="/recipe/{{ recipe.id }}">{{ recipe.title }}</a>, Cooking time {{ recipe.cooking_time }}, Published at {{ recipe.created_at }}, {{ recipe.likes }} likes.
+	<hr>
+	{% endfor %}
+</div>
 
+
+{% if private_count > 0 %}
+	<div id="private">
+		{% for recipe in private_recipes %}
+		<a href="/recipe/{{ recipe.id }}">{{ recipe.title }}</a>, Cooking time {{ recipe.cooking_time }}, Published at {{ recipe.created_at }}, {{ recipe.likes }} likes.
+		<hr>
+		{% endfor %}
+	</div>
+{% endif %}
+
+<script>
+	function show_public() {
+		var y = document.getElementById("private");
+		y.style.display = "none";
+		var x = document.getElementById("public");
+		x.style.display = "block";
+	}
+	function show_private() {
+		var y = document.getElementById("public");
+		y.style.display = "none";
+		var x = document.getElementById("private");
+		x.style.display = "block";
+	}
+	function show_all() {
+		var y = document.getElementById("public");
+		y.style.display = "block";
+		var x = document.getElementById("private");
+		x.style.display = "block";
+	}
+</script>
 
 {% endblock %}

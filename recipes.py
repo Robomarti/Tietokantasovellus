@@ -1,6 +1,6 @@
 from db import db
 import users
-from sqlalchemy.sql import text
+import profiles
 from sqlalchemy.sql import text
 
 def get_list():
@@ -36,15 +36,22 @@ def get_recipe(id):
 	result = db.session.execute(text(sql), {"id":id})
 	return result.fetchone()
 
-def get_likes(id):
-	sql = "SELECT likes FROM recipes WHERE id=(:id)"
-	result = db.session.execute(text(sql), {"id":id})
+def get_likes(recipe_id):
+	sql = "SELECT likes FROM recipes WHERE id=(:recipe_id)"
+	result = db.session.execute(text(sql), {"recipe_id":recipe_id})
 	return int(str(result.fetchone())[1:-2])
 
-def like_recipe(id):
-	likes = get_likes(id) + 1
-	sql = "UPDATE recipes SET likes=(:likes) WHERE id=(:id)"
-	db.session.execute(text(sql), {"likes":likes,"id":id})
+def like_recipe(recipe_id):
+	likes = get_likes(recipe_id) + 1
+	publisher_id = get_publisher_id(recipe_id)
+	total_likes = profiles.get_total_likes(publisher_id) + 1
+
+	sql = "BEGIN;" \
+	"UPDATE recipes SET likes=(:likes) WHERE id=(:recipe_id);" \
+	"UPDATE profiles SET total_likes=(:total_likes) WHERE user_id=(:publisher_id);" \
+	"COMMIT;"
+
+	db.session.execute(text(sql), {"likes":likes,"recipe_id":recipe_id, "total_likes":total_likes, "publisher_id":publisher_id})
 	db.session.commit()
 
 def delete_recipe(id):
@@ -88,7 +95,12 @@ def update(recipe_id, title, recipe, likes, public, cooking_time):
     db.session.commit()
     return True
 
-def get_recipes_of_user(user_id):
-	sql = "SELECT id, title, cooking_time, recipe, likes, created_at, public, user_id FROM recipes WHERE public=TRUE AND user_id=(:user_id) ORDER BY likes DESC"
-	result = db.session.execute(text(sql), {"user_id":user_id})
+def get_recipes_of_user(user_id, public):
+	sql = "SELECT id, title, cooking_time, recipe, likes, created_at, public, user_id FROM recipes WHERE public=(:public) AND user_id=(:user_id) ORDER BY likes DESC"
+	result = db.session.execute(text(sql), {"user_id":user_id, "public":public})
 	return result.fetchall()
+
+def get_publisher_id(recipe_id):
+	sql = "SELECT user_id FROM recipes WHERE id=(:id)"
+	result = db.session.execute(text(sql), {"id":recipe_id})
+	return result.fetchone()[0]

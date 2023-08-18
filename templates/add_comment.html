@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Edit recipe{% endblock %}
+
+{% block content %}
+
+<br>
+<form action="/add_comment/{{ recipe_id }}" method="POST">
+	Comment:
+	<br>
+	<textarea name="content" rows="40" cols="60"></textarea>
+	<br>
+	<input type="submit" value="Add comment">
+</form>
+{% endblock %}
