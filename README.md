@@ -18,7 +18,7 @@ The topic is a recipe website where you can publish food recipes.
 
 - Users can search public recipes with search words.
 
-- Admin users can delete other users' recipes and users' can delete their own recipes.
+- Admin users can delete other users' recipes and users can delete their own recipes.
 
 
 Things that are working now:
@@ -29,9 +29,11 @@ Things that are working now:
 - Searching recipes by their title, content or cooking time
 - Searching users by their username
 - All public recipes of each user are shown on their profile page
-- All private recipes of an user show on only their own profile, and they can filter public and private recipes by clicking a button. 
+- All private recipes of an user show on only their own profile, and they can filter public and private recipes by clicking a button.
+- Users can update their biography on their profile pages
 - Users can comment on recipes, and like other users' comments.
 
+So pretty much everything except sending and reading messages. If anyone has other feature ideas that I could implement in these last two weeks, please add them to the issues.
 
 # Set up guide:
 This project expects you to have PostgreSQL and Python 3 installed.
