@@ -104,3 +104,10 @@ def get_publisher_id(recipe_id):
 	sql = "SELECT user_id FROM recipes WHERE id=(:id)"
 	result = db.session.execute(text(sql), {"id":recipe_id})
 	return result.fetchone()[0]
+
+def get_better_format(recipe):
+	better_format_recipe = []
+	for row in recipe:
+		better_format_recipe.append(str(row))
+	better_format_recipe[5] = better_format_recipe[5][:-7]
+	return better_format_recipe

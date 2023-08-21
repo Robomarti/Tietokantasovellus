@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Your messages{% endblock %} 
+
+
+{% block content %}
+<br>
+<button onclick="show_all()">All messages:</button>
+<button style="display:inline;" onclick="show_sent()">Messages sent by you:</button>
+<button style="display:inline;" onclick="show_received()">Messages sent to you:</button>
+<br>
+<hr>
+<div id="received" style="display:none;">
+	{% for received_message in received_messages %}
+		To: {{ get_username(received_message.sent_to_id) }}
+		<br>
+		{{ received_message.content }}
+		<br>
+		From: <a href="/profile/{{ received_message.sent_from_id }}">{{ get_username(received_message.sent_from_id) }}</a>
+		<hr>
+	{% endfor %}
+</div>
+
+<div id="sent" style="display:none;">
+	{% for sent_message in sent_messages %}
+		To: {{ get_username(sent_message.sent_to_id) }}
+		<br>
+		{{ sent_message.content }}
+		<br>
+		From: <a href="/profile/{{ sent_message.sent_from_id }}">{{ get_username(sent_message.sent_from_id) }}</a>
+		<hr>
+	{% endfor %}
+</div>
+
+<div id="all">
+	{% for any_message in all_messages %}
+		To: {{ get_username(any_message.sent_to_id) }}
+		<br>
+		{{ any_message.content }}
+		<br>
+		From: <a href="/profile/{{ any_message.sent_from_id }}">{{ get_username(any_message.sent_from_id) }}</a>
+		<hr>
+	{% endfor %}
+</div>
+
+<script>
+	function show_received() {
+		var z = document.getElementById("all");
+		z.style.display = "none";
+		var y = document.getElementById("sent");
+		y.style.display = "none";
+		var x = document.getElementById("received");
+		x.style.display = "block";
+	}
+	function show_sent() {
+		var z = document.getElementById("all");
+		z.style.display = "none";
+		var y = document.getElementById("received");
+		y.style.display = "none";
+		var x = document.getElementById("sent");
+		x.style.display = "block";
+	}
+	function show_all() {
+		var y = document.getElementById("sent");
+		y.style.display = "none";
+		var x = document.getElementById("received");
+		x.style.display = "none";
+		var z = document.getElementById("all");
+		z.style.display = "block";
+	}
+</script>
+
+{% endblock %}

@@ -1,11 +1,13 @@
 {% extends "base.html" %}
-{% block title %}New recipe{% endblock %} 
+{% block title %}Edit your biography{% endblock %} 
 
 
 {% block content %}
 
+About me:
+<br>
 <form action="/edit_bio/{{ profile_id }}" method="POST">
-	About me: <textarea name="bio" rows="40" cols="60">{{ current_bio }}</textarea>
+	<textarea name="bio" rows="40" cols="60">{{ current_bio }}</textarea>
 	<br>
 	<input type="submit" value="Update">
 </form>

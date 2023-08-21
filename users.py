@@ -56,9 +56,6 @@ def get_username(id):
         user_id = user_id[0]
     return user_id
 
-def user_id():
-    return session["user_id"]
-
 def search_user(username):
 	found_users = []
 	sql = "SELECT U.id FROM users U, profiles P WHERE U.username LIKE (:username) ORDER BY P.total_likes DESC"

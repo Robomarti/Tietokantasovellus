@@ -6,32 +6,33 @@
 		<title>{% block title %}Home{% endblock %}</title>
 		<style>
 			#public_recipes {
-				padding: 50px;
+				padding-left: 50px;
 			}
 			#private_recipes {
-				padding: 50px;
+				padding-left: 50px;
 			}
 		</style>
 	</head>
 	<body>
 		<div class="navigation-bar">
 			{% if session.user_id %}
-			<a class="nav-item nav-link" id="home" href="/">Home</a>
-			<a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
-			<form style="display:inline;" action="/recipe_result" method="GET">
+			<a style="display:inline; padding-left:10px;" id="home" href="/">Home</a>
+			<a style="display:inline; padding-left:10px;" id="logout" href="/logout">Logout</a>
+			<form style="display:inline; padding-left:10px;" action="/recipe_result" method="GET">
 				Search for a recipe: 
 				<input type="text" name="recipe_query">
 				<input type="submit" value="Search">
 			</form>
-			<form style="display:inline;" action="/user_result" method="GET">
+			<form style="display:inline; padding-left:10px;" action="/user_result" method="GET">
 				Search for a user: 
 				<input type="text" name="username_query">
 				<input type="submit" value="Search">
 			</form>
-			<a style="display:inline;" href="/profile/{{ session.user_id }}">My profile</a>
+			<a style="display:inline; padding-left:10px;" href="/profile/{{ session.user_id }}">My profile</a>
+			<a style="display:inline; padding-left:10px;" href="/show_messages/{{ session.user_id }}">Messages</a>
 			{% else %}
-			<a class="nav-item nav-link" id="login" href="/login">Login</a>
-			<a class="nav-item nav-link" id="signUp" href="/sign_up">Sign Up</a>
+			<a style="display:inline; padding-left:10px;" id="login" href="/login">Login</a>
+			<a style="display:inline; padding-left:10px;" href="/sign_up">Sign Up</a>
 			{% endif %}
         </div>
 		<br>

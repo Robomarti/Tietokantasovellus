@@ -1,5 +1,16 @@
-<form action="/send_a_message" method="POST">
-Message: <input type="text" name="message">
+{% extends "base.html" %}
+{% block title %}New message{% endblock %} 
 
-<input type="submit" value="Send">
+
+{% block content %}
+
+Message:
+<br>
+<form action="/send_a_message/{{ receiver }}" method="POST">
+	<input type="hidden" name="sender" value="{{ sender }}">
+	<textarea name="message" rows="40" cols="60">Enter a message</textarea>
+	<br>
+	<input type="submit" value="Send">
 </form>
+
+{% endblock %}

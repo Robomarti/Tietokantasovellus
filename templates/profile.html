@@ -4,12 +4,14 @@
 
 {% block content %}
 
-
-You are currently viewing {{ profile_owner }}'s profile.
-<br>
+{% if session.user_id == found_profile[3] %}
+	You are currently viewing your own profile.
+{% else %}
+	You are currently viewing {{ profile_owner }}'s profile.
+{% endif %}
 <br>
 {% if session.user_id != found_profile[3] %}
-Send a <a href="/send_a_message">message</a>
+Send a <a href="/send_a_message/{{ found_profile[3] }}">message</a>
 {% endif %}
 <h2>{{ profile_owner }}</h2>
 <br>

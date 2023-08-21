@@ -1,13 +1,15 @@
 from app import app
-from db import db
 from flask import render_template, request, redirect
-import recipes, users, profiles, comments
-from sqlalchemy.sql import text
+import recipes, users, profiles, comments, messages
+
 @app.route("/")
 def index():
 	list = recipes.get_list()
+	better_list = []
+	for recipe in list:
+		better_list.append(recipes.get_better_format(recipe))
 	user = users.get_username(users.logged_user_id())
-	return render_template("index.html", count=len(list), recipes=list, user=user)
+	return render_template("index.html", count=len(better_list), recipes=better_list, user=user)
 
 @app.route("/new_recipe")
 def new():
@@ -72,9 +74,10 @@ def recipe(recipe_id):
 	if recipes.is_public(recipe_id) or recipes.recipe_publisher_id(recipe_id) == users.logged_user_id():
 		recipe = recipes.get_recipe(recipe_id)
 		recipe_publisher_name = users.get_username(recipe[7])
+		better_format_recipe = recipes.get_better_format(recipe)
 		is_admin = users.is_admin()
 		recipe_comments = comments.get_comments_by_recipe_id(recipe_id)
-		return render_template("recipe.html", recipe=recipe, recipe_publisher_name=recipe_publisher_name, is_admin=is_admin,recipe_comments=recipe_comments)
+		return render_template("recipe.html", recipe=better_format_recipe, recipe_publisher_name=recipe_publisher_name, is_admin=is_admin,recipe_comments=recipe_comments)
 	return render_template("error.html", error="You have no permissions to see this recipe")
 
 @app.route("/delete_recipe/<int:id>", methods=["POST"])
@@ -150,12 +153,26 @@ def profile(user_id):
 	return render_template("profile.html", profile_owner=profile_owner, found_recipes=public_recipes, 
 			found_profile=found_profile, private_recipes=private_recipes, public_count=public_count, private_count=private_count)
 
-@app.route("/send_a_message", methods=["GET", "POST"])
-def send_a_message():
+@app.route("/send_a_message/<int:receiver_id>", methods=["GET", "POST"])
+def send_a_message(receiver_id):
 	if request.method == "GET":
-		return render_template("new_message.html")
+		sender = users.logged_user_id()
+		return render_template("new_message.html", receiver=receiver_id, sender=sender)
 	if request.method == "POST":
+		sender = request.form["sender"]
+		message = request.form["message"]
+		if messages.new_message(sender, receiver_id, message):
+			profile_id = profiles.get_profile_by_user_id(receiver_id)
+			return redirect(f"/profile/{profile_id[0]}")
 		return render_template("error.html", error="Sending the message failed")
+
+@app.route("/show_messages/<int:user_id>", methods=["GET"])
+def show_messages(user_id):
+	if request.method == "GET":
+		sent_messages = messages.get_messages_by_user(user_id)
+		received_messages = messages.get_messages_of_user(user_id)
+		all_messages = messages.get_all_messages(user_id)
+		return render_template("messages.html", sent_messages=sent_messages, received_messages=received_messages, all_messages=all_messages, get_username=users.get_username)
 
 @app.route("/edit_bio/<int:profile_id>", methods=["GET", "POST"])	
 def edit_bio(profile_id):
