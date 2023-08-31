@@ -5,6 +5,7 @@
 {% block content %}
 
 <form action="/publish_recipe" method="POST">
+	<input type="hidden" name="csrf_token" value="{{ token }}">
 	Name of the dish: <input type="text" name="title">
 	<br>
 	Time required: <input type="number" name="cooking_time" min="1"> minutes.

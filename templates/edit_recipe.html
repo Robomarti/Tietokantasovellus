@@ -8,6 +8,7 @@
 <br>
 <br>
 <form action="/update_recipe" method="POST">
+	<input type="hidden" name="csrf_token" value="{{ token }}">
 	<input type="hidden" name="recipe_id" value="{{ recipe[0] }}">
 	<input type="hidden" name="likes" value="{{ recipe[4] }}">
 	Name of the dish: <input type="text" name="title" value="{{ recipe[1] }}">

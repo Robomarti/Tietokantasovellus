@@ -7,6 +7,7 @@
 Message:
 <br>
 <form action="/send_a_message/{{ receiver }}" method="POST">
+	<input type="hidden" name="csrf_token" value="{{ token }}">
 	<input type="hidden" name="sender" value="{{ sender }}">
 	<textarea name="message" rows="40" cols="60">Enter a message</textarea>
 	<br>

@@ -9,7 +9,7 @@ def get_comments_by_recipe_id(recipe_id):
 	return result.fetchall()
 
 def post_comment(recipe_id, content):
-	user_id = users.user_id()
+	user_id = users.logged_user_id()
 	if user_id == 0:
 		return False
 	sql = "INSERT INTO comments (content, likes, user_id, recipe_id) VALUES (:content, 0, :user_id, :recipe_id)"

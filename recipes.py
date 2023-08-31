@@ -9,7 +9,7 @@ def get_list():
     return result.fetchall()
 
 def send(title, recipe, public, cooking_time):
-    user_id = users.user_id()
+    user_id = users.logged_user_id()
     if user_id == 0:
         return False
     sql = "INSERT INTO recipes (title,cooking_time,recipe,likes,public,user_id) VALUES (:title,:cooking_time,:recipe, 0,:public,:user_id)"
@@ -80,7 +80,7 @@ def search_recipe_by_time(content):
 	return found_recipes
 
 def update(recipe_id, title, recipe, likes, public, cooking_time):
-    user_id = users.user_id()
+    user_id = users.logged_user_id()
     if user_id == 0:
         return False
     sql = "UPDATE recipes SET " \

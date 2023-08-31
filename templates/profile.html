@@ -23,6 +23,7 @@ About me:
 <br>
 {% if session.user_id == found_profile[3] %}
 <form action="/edit_bio/{{ found_profile[0] }}" method="GET">
+	<input type="hidden" name="csrf_token" value="{{ token }}">
 	<input type="submit" value="Edit biography">
 </form>
 {% endif %}
