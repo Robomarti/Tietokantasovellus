@@ -1,0 +1,7 @@
+[Unit]
+Description=update to latest release on checked out branch
+
+[Service]
+#Type=forking
+WorkingDirectory=%h/tsoha-recipies
+ExecStart=%h/tsoha-recipies/main.sh update
