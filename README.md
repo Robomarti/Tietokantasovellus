@@ -27,7 +27,11 @@ This project expects you to have PostgreSQL and Python 3 installed.
 
 Clone this repository. Navigate to the root directory.
 
-You can have virtualenv installed by using pip install virtualenv. This might make easier to remove unnecessary
+You can have virtualenv installed by using 
+```bash
+pip install virtualenv
+```
+This might make easier to remove unnecessary
 dependencies after testing my application.
 
 
