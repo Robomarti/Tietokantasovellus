@@ -1,9 +1,11 @@
 from app import app
 from flask import render_template, request, redirect, session, abort
 import recipes, users, profiles, comments, messages
+import secrets
 
 @app.route("/")
 def index():
+	session["csrf_token"] = secrets.token_hex(16)
 	list = recipes.get_list()
 	better_list = []
 	for recipe in list:
