@@ -37,6 +37,8 @@ def send():
 @app.route("/login", methods=["GET", "POST"])
 def login():
 	if request.method == "GET":
+		if not session["csrf_token"]:
+			session["csrf_token"] = secrets.token_hex(16)
 		return render_template("login.html")
 
 	if request.method == "POST":
@@ -56,6 +58,8 @@ def logout():
 @app.route("/sign_up", methods=["GET", "POST"])
 def sign_up():
 	if request.method == "GET":
+		if not session["csrf_token"]:
+			session["csrf_token"] = secrets.token_hex(16)
 		token = session["csrf_token"]
 		return render_template("sign_up.html", token=token)
 

@@ -11,7 +11,7 @@
 <hr>
 <div id="received" style="display:none;">
 	{% for received_message in received_messages %}
-		To: <a href="/profile/{{ sent_message.sent_to_id }}">{{ get_username(sent_message.sent_to_id) }}</a>
+		To: <a href="/profile/{{ received_message.sent_to_id }}">{{ get_username(received_message.sent_to_id) }}</a>
 		<br>
 		{{ received_message.content }}
 		<br>
@@ -33,7 +33,7 @@
 
 <div id="all">
 	{% for any_message in all_messages %}
-		To: <a href="/profile/{{ sent_message.sent_to_id }}">{{ get_username(sent_message.sent_to_id) }}</a>
+		To: <a href="/profile/{{ any_message.sent_to_id }}">{{ get_username(any_message.sent_to_id) }}</a>
 		<br>
 		{{ any_message.content }}
 		<br>
